@@ -9,7 +9,7 @@ if (!fs.existsSync(THEME_DIR)) {
 }
 
 module.exports = async () => {
-    const { base, soft } = await generate();
+    const { base, alucard } = await generate();
 
     return Promise.all([
         fs.promises.writeFile(
@@ -17,8 +17,8 @@ module.exports = async () => {
             JSON.stringify(base, null, 4)
         ),
         fs.promises.writeFile(
-            path.join(THEME_DIR, 'dracula-soft.json'),
-            JSON.stringify(soft, null, 4)
+            path.join(THEME_DIR, 'alucard.json'),
+            JSON.stringify(alucard, null, 4)
         ),
     ]);
 };

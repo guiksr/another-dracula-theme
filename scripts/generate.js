@@ -3,25 +3,6 @@ const { join } = require('path');
 const { Type, DEFAULT_SCHEMA, load } = require('js-yaml');
 const tinycolor = require('tinycolor2');
 
-/**
- * @typedef {Object} TokenColor - Textmate token color.
- * @prop {string} [name] - Optional name.
- * @prop {string[]} scope - Array of scopes.
- * @prop {Record<'foreground'|'background'|'fontStyle',string|undefined>} settings - Textmate token settings.
- *       Note: fontStyle is a space-separated list of any of `italic`, `bold`, `underline`.
- */
-
-/**
- * @typedef {Object} Theme - Parsed theme object.
- * @prop {Record<'base'|'ansi'|'brightOther'|'other', string[]>} dracula - Dracula color variables.
- * @prop {Record<string, string|null|undefined>} colors - VSCode color mapping.
- * @prop {TokenColor[]} tokenColors - Textmate token colors.
- */
-
-/**
- * @typedef {(yamlObj: Theme) => Theme} ThemeTransform
- */
-
 const withAlphaType = new Type('!alpha', {
     kind: 'sequence',
     construct: ([hexRGB, alpha]) => hexRGB + alpha,
@@ -30,28 +11,48 @@ const withAlphaType = new Type('!alpha', {
 
 const schema = DEFAULT_SCHEMA.extend([withAlphaType]);
 
-/**
- * Soft variant transform.
- * @type {ThemeTransform}
- */
-const transformSoft = theme => {
-    /** @type {Theme} */
-    const soft = JSON.parse(JSON.stringify(theme));
-    const brightColors = [...soft.dracula.ansi, ...soft.dracula.brightOther];
-    for (const key of Object.keys(soft.colors)) {
-        if (brightColors.includes(soft.colors[key])) {
-            soft.colors[key] = tinycolor(soft.colors[key])
-                .desaturate(20)
+// const transformSoft = theme => {
+//     const soft = JSON.parse(JSON.stringify(theme));
+//     const brightColors = [...soft.dracula.ansi, ...soft.dracula.brightOther];
+
+//     for (const key of Object.keys(soft.colors)) {
+//         if (brightColors.includes(soft.colors[key])) {
+//             soft.colors[key] = tinycolor(soft.colors[key])
+//                 .desaturate(20)
+//                 .toHexString();
+//         }
+//     }
+
+//     soft.tokenColors = soft.tokenColors.map((value) => {
+//         if (brightColors.includes(value.settings.foreground)) {
+//             value.settings.foreground = tinycolor(value.settings.foreground).desaturate(20).toHexString();
+//         }
+//         return value;
+//     })
+//     return soft;
+// };
+
+const transformAlucard = theme => {
+    const alucard = JSON.parse(JSON.stringify(theme));
+    const uiColors = [...alucard.dracula.other.splice(4), alucard.dracula.base[0], alucard.dracula.base[1]];
+    const base = [...alucard.dracula.base.splice(2)];
+    console.log(alucard, uiColors);
+
+    for (const key of Object.keys(alucard.colors)) {
+        if (uiColors.includes(alucard.colors[key])) {
+            alucard.colors[key] = tinycolor(alucard.colors[key])
+                .darken(3)
                 .toHexString();
         }
     }
-    soft.tokenColors = soft.tokenColors.map((value) => {
-        if (brightColors.includes(value.settings.foreground)) {
-            value.settings.foreground = tinycolor(value.settings.foreground).desaturate(20).toHexString();
+
+    alucard.tokenColors = alucard.tokenColors.map((value) => {
+        if (uiColors.includes(value.settings.foreground)) {
+            value.settings.foreground = tinycolor(value.settings.foreground).darken(3).toHexString();
         }
         return value;
     })
-    return soft;
+    return alucard;
 };
 
 module.exports = async () => {
@@ -60,10 +61,8 @@ module.exports = async () => {
         'utf-8'
     );
 
-    /** @type {Theme} */
     const base = load(yamlFile, { schema });
 
-    // Remove nulls and other falsey values from colors
     for (const key of Object.keys(base.colors)) {
         if (!base.colors[key]) {
             delete base.colors[key];
@@ -72,6 +71,6 @@ module.exports = async () => {
 
     return {
         base,
-        soft: transformSoft(base),
+        alucard: transformAlucard(base),
     };
 };

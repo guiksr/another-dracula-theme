@@ -1,10 +1,10 @@
 {
-	"name": "theme-dracula",
+	"name": "theme-alucard",
 	"version": "2.23.1",
-	"displayName": "Dracula Official",
-	"homepage": "https://draculatheme.com/",
-	"description": "Official Dracula Theme. A dark theme for many editors, shells, and more.",
-	"publisher": "dracula-theme",
+	"displayName": "Alucard Theme",
+	"homepage": "",
+	"description": "A Fork from the Official Dracula Theme.",
+	"publisher": "guiksr",
 	"license": "MIT",
 	"scripts": {
 		"build": "node ./scripts/build.js",
@@ -14,9 +14,10 @@
 		"vsce-publish": "vsce publish"
 	},
 	"maintainers": [
-		"Derek P Sifford <dereksifford@gmail.com>"
+		"guiksr"
 	],
 	"contributors": [
+    "Derek P Sifford",
 		"Krzysztof Wisznarewski",
 		"Daniel Ramos",
 		"Eric Jackson",
@@ -26,10 +27,10 @@
 	],
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/dracula/visual-studio-code.git"
+		"url": "https://github.com/guiksr/another-dracula-theme.git"
 	},
 	"bugs": {
-		"url": "https://github.com/dracula/visual-studio-code/issues"
+		"url": "https://github.com/guiksr/another-dracula-theme/issues"
 	},
 	"engines": {
 		"vscode": "^1.13.0"
@@ -50,15 +51,15 @@
 	},
 	"contributes": {
 		"themes": [
-			{
-				"label": "Dracula",
+      {
+				"label": "Alucard Theme",
 				"uiTheme": "vs-dark",
-				"path": "./theme/dracula.json"
+				"path": "./theme/alucard.json"
 			},
 			{
-				"label": "Dracula Soft",
+				"label": "Alucard Base Theme",
 				"uiTheme": "vs-dark",
-				"path": "./theme/dracula-soft.json"
+				"path": "./theme/dracula.json"
 			}
 		]
 	},
@@ -67,10 +68,5 @@
 		"prettier": "^2.3.2",
 		"tinycolor2": "^1.4.2",
 		"vsce": "^1.96.1"
-	},
-	"__metadata": {
-		"id": "4e44877c-1c8d-4f9c-ba86-1372d0fbeeb1",
-		"publisherDisplayName": "Dracula Theme",
-		"publisherId": "fbb3d024-f8f2-460c-bdb5-99552f6d8c4b"
 	}
 }
