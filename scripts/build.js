@@ -9,7 +9,7 @@ if (!fs.existsSync(THEME_DIR)) {
 }
 
 module.exports = async () => {
-    const { base, alucard } = await generate();
+    const { base, alucard, dark, darker } = await generate();
 
     return Promise.all([
         fs.promises.writeFile(
@@ -19,6 +19,14 @@ module.exports = async () => {
         fs.promises.writeFile(
             path.join(THEME_DIR, 'alucard.json'),
             JSON.stringify(alucard, null, 4)
+        ),
+        fs.promises.writeFile(
+            path.join(THEME_DIR, 'alucard-dark.json'),
+            JSON.stringify(dark, null, 4)
+        ),
+        fs.promises.writeFile(
+            path.join(THEME_DIR, 'alucard-darker.json'),
+            JSON.stringify(darker, null, 4)
         ),
     ]);
 };

@@ -306,7 +306,7 @@ colors:
 
   # Panel Colors
   panel.background: *BG                                                         # Panel background color
-  panel.border: !alpha [*PINK, 30]                                                         # Panel border color on the top separating to the editor
+  panel.border: !alpha [ *PINK, 30 ]                                                         # Panel border color on the top separating to the editor
   panelTitle.activeBorder: *PINK                                                # Border color for the active panel title
   panelTitle.activeForeground: *FG                                              # Title color for the active panel
   panelTitle.inactiveForeground: *COMMENT                                       # Title color for the inactive panel
@@ -337,7 +337,7 @@ colors:
   notification.foreground: *FG                                                  # Notifications foreground color
   notification.buttonBackground: *SELECTION
   notification.buttonForeground: *FG
-  notification.buttonHoverBackground: *LineHighlight
+  notification.buttonHoverBackground: *BGDark
   notification.errorBackground: *RED
   notification.errorForeground: *FG
   notification.infoBackground: *CYAN

@@ -52,6 +52,16 @@
 	"contributes": {
 		"themes": [
       {
+				"label": "Alucard Dark Theme",
+				"uiTheme": "vs-dark",
+				"path": "./theme/alucard-dark.json"
+			},
+      {
+				"label": "Alucard Darker Theme",
+				"uiTheme": "vs-dark",
+				"path": "./theme/alucard-darker.json"
+			},
+      {
 				"label": "Alucard Theme",
 				"uiTheme": "vs-dark",
 				"path": "./theme/alucard.json"

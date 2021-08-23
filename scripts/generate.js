@@ -55,6 +55,68 @@ const transformAlucard = theme => {
     return alucard;
 };
 
+const transformDark = theme => {
+    const dark = JSON.parse(JSON.stringify(theme));
+    const uiColors = [...dark.dracula.other.slice(4), dark.dracula.base[0], dark.dracula.base[1]];
+    const base = [...dark.dracula.base.slice(4)];
+    console.log(dark, uiColors);
+
+    for (const key of Object.keys(dark.colors)) {
+        if (uiColors.includes(dark.colors[key])) {
+            dark.colors[key] = tinycolor(dark.colors[key])
+                .darken(5)
+                .toHexString();
+        } else if (base.includes(dark.colors[key])) {
+            dark.colors[key] = tinycolor(dark.colors[key])
+                .darken(2)
+                .desaturate(20)
+                .toHexString();
+        }
+    }
+
+    dark.tokenColors = dark.tokenColors.map((value) => {
+        if (base.includes(value.settings.foreground)) {
+            value.settings.foreground = tinycolor(value.settings.foreground).darken(2).desaturate(20).toHexString();
+        }
+        return value;
+    })
+    return dark;
+};
+
+const transformDarker = theme => {
+    const dark = JSON.parse(JSON.stringify(theme));
+    const uiColors = [...dark.dracula.other.slice(4), dark.dracula.base[0], dark.dracula.base[1]];
+    const base = [...dark.dracula.base.slice(4)];
+    const fg = dark.dracula.base[1];
+    const comment = dark.dracula.base[3];
+    const syntax = [ ...base, fg, comment ]
+
+    console.log(dark, uiColors);
+
+    for (const key of Object.keys(dark.colors)) {
+        if (uiColors.includes(dark.colors[key])) {
+            dark.colors[key] = tinycolor(dark.colors[key])
+                .darken(6)
+                .toHexString();
+        } else if (base.includes(dark.colors[key])) {
+            dark.colors[key] = tinycolor(dark.colors[key])
+                .darken(1)
+                .desaturate(10)
+                .toHexString();
+        }
+    }
+
+    dark.tokenColors = dark.tokenColors.map((value) => {
+        if (syntax.includes(value.settings.foreground)) {
+            value.settings.foreground = tinycolor(value.settings.foreground).darken(1).desaturate(10).toHexString();
+        } else if (value === fg) {
+          value.settings.foreground = tinycolor(value.settings.foreground).darken(10).toHexString();
+        }
+        return value;
+    })
+    return dark;
+};
+
 module.exports = async () => {
     const yamlFile = await readFile(
         join(__dirname, '..', 'src', 'dracula.yml'),
@@ -72,5 +134,7 @@ module.exports = async () => {
     return {
         base,
         alucard: transformAlucard(base),
+        dark: transformDark(base),
+        darker: transformDarker(base),
     };
 };
